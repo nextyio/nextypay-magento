@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+            <sample_gateway>
+                <active>0</active>
+                <title>Payment method (Nexty Payment)</title>
+                <order_status>pending_payment</order_status>
+                <description>Description</description>
+                <instructions>Instructions</instructions>
+                <walletAddress>walletAddress</walletAddress>
+                <exchangeAPI>exchangeAPI</exchangeAPI>
+                <endPointAddress>endPointAddress</endPointAddress>
+                <min_blocks_saved_db>20</min_blocks_saved_db>
+                <max_blocks_saved_db>40</max_blocks_saved_db>
+                <blocks_loaded_each_request>10</blocks_loaded_each_request>
+
+                <debug>1</debug>
+                <model>NextyFacade</model>
+                <merchant_gateway_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <payment_action>authorize</payment_action>
+                <currency>USD</currency>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_void>1</can_void>
+                <can_use_checkout>1</can_use_checkout>
+                <is_gateway>1</is_gateway>
+                <sort_order>1</sort_order>
+                <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
+                <paymentInfoKeys>FRAUD_MSG_LIST</paymentInfoKeys>
+                <privateInfoKeys>FRAUD_MSG_LIST</privateInfoKeys>
+            </sample_gateway>
+        </payment>
+    </default>
+</config>
