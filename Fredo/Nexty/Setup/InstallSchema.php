@@ -1,7 +1,8 @@
 <?php
 namespace Fredo\Nexty\Setup;
 
-
+//drop table nexty_payment_transactions; drop table nexty_payment_order_in_coin; drop table nexty_payment_blocks
+//delete setup_module
 use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
@@ -9,8 +10,8 @@ use Magento\Framework\Setup\SchemaSetupInterface;
 class InstallSchema implements InstallSchemaInterface
 {
     public $db_prefix='nexty_payment_';
-    public function create_table_in_coin_exchange($installer){
-      $table_name  = $this->db_prefix."total_in_coin";
+    public function create_table_order_in_coin($installer){
+      $table_name  = $this->db_prefix."order_in_coin";
 
       $installer->startSetup();
 
@@ -37,13 +38,13 @@ class InstallSchema implements InstallSchemaInterface
               ['nullable' => false],
               'Order Price in the Store Currency'
           )
-          ->addColumn(
+    /*      ->addColumn(
               'order_total_usd',
               \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
               255,
               ['nullable' => false],
               'Order Price in USD'
-          )
+          )*/
           ->addColumn(
               'order_total_in_coin',
               \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
@@ -201,57 +202,13 @@ class InstallSchema implements InstallSchemaInterface
 
     }
 
-    public function create_table_exchange($installer){
-      $exchange_table_name  = $this->db_prefix."exchange_to_usd";
-
-      $installer->startSetup();
-
-      $table = $installer->getConnection()
-          ->newTable($installer->getTable($exchange_table_name))
-          ->addColumn(
-              'id',
-              \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-              null,
-              ['identity' => true, 'auto_increment' => true , 'unsigned' => true, 'nullable' => false, 'primary' => true],
-              'ID'
-          )
-          ->addColumn(
-              'from_currency',
-              \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-              255,
-              ['nullable' => false],
-              'From_Currency_to_USD'
-          )
-          ->addColumn(
-              'value',
-              \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-              255,
-              ['nullable' => true],
-              'Value_in_USD_with_1_Unit'
-          )
-          ->addColumn(
-              'time',
-              \Magento\Framework\DB\Ddl\Table::TYPE_DATETIME,
-              null,
-              ['nullable' => false, 'unsigned' => true],
-              'Last_update_Time'
-          )
-          ;
-      $installer->getConnection()->createTable($table);
-
-
-      $installer->endSetup();
-
-    }
-
     public function install(SchemaSetupInterface $setup, ModuleContextInterface $context)
     {
         $installer = $setup;
 
         $this->create_table_blocks($installer);
         $this->create_table_transactions($installer);
-        $this->create_table_exchange($installer);
-        $this->create_table_in_coin_exchange($installer);
+        $this->create_table_order_in_coin($installer);
         //$this->init_blocks_table_db();
 
     }

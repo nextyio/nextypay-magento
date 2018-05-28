@@ -29,6 +29,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return $QRtextencode;
     }
 
+    public function getQRCode_test($walletAddress,$order_id,$order_total)
+    {
+        $QRtext='{"walletaddress": "'.$walletAddress.'","uoid": "'.$order_id.'","amount": "'.$order_total.'"}  ';
+        $QRtext_hex="0x".$this->strToHex($QRtext);
+        $QRtextencode= urlencode ( $QRtext_hex );
+        return $QRtext;
+    }
+
     public function getConfig($config_path)
     {
         return $this->_scopeConfig->getValue(

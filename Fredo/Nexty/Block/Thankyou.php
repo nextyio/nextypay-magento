@@ -32,8 +32,4 @@ class Thankyou extends \Magento\Sales\Block\Order\Totals
         return $this->customerSession->getCustomer()->getId();
     }
 
-    public function getUrl1(){
-      //return $this->getUrl("Fredo_Nexty/Index/View"); // Controller Url
-      return "test.php";
-    }
 }

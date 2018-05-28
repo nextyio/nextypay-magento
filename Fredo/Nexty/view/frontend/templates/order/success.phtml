@@ -1,42 +1,54 @@
 <?php
-$order = $block->getOrder();
-$walletAddress = $this->helper('Fredo\Nexty\Helper\Data')->getConfig('payment/sample_gateway/wallet_address');
 $this->helper('Fredo\Nexty\Helper\UpdateDB')->update_nexty_db();
-$order_id= $order->getIncrementId();
-$order_id_prefix=$block->getUrl('nexty');
-$order_total=$order->getGrandTotal();
-$order_currency=$order->getOrderCurrencyCode();
-$QRtextencode=$this->helper('Fredo\Nexty\Helper\Data')->getQRCode($walletAddress,$order_id,$order_total);
+$order                =$block->getOrder();
+$walletAddress        =$this->helper('Fredo\Nexty\Helper\Data')->getConfig('payment/sample_gateway/walletAddress');
+$order_id             =intval($order->getIncrementId());
+$order_id_prefix      =$block->getUrl('nexty');
+$uoid                 =$order_id."_".$order_id_prefix;
+$order_total          =$order->getGrandTotal();
+$store_currency       =$order->getOrderCurrencyCode();
+
+//if order not placed
+$order_total_in_coin  =$this->helper('Fredo\Nexty\Helper\Exchange')->coinmarketcap_exchange($store_currency,$order_total);
+if ($this->helper('Fredo\Nexty\Helper\UpdateDB')->is_order_in_coin_placed($order_id))
+$order_total_in_coin  =$this->helper('Fredo\Nexty\Helper\UpdateDB')->get_order_in_coin_test($order_id);
+$placed_time          =date("Y-m-d H:i:s");
+$QRtextencode         =$this->helper('Fredo\Nexty\Helper\Data')->getQRCode($walletAddress,$uoid,$order_total_in_coin);
+$QRtextencode_test    =$this->helper('Fredo\Nexty\Helper\Data')->getQRCode_test($walletAddress,$uoid,$order_total_in_coin);
+
+$this->helper('Fredo\Nexty\Helper\UpdateDB')->insert_order_in_coin_db($order_id,$store_currency,$order_total,$order_total_in_coin,$placed_time);
 
 //place_order_in_coin($order_id,$order_total,$order_currency);
 //$moduleStatus = $this->helper('Fredo\Nexty\Helper\Data')->getConfig('payment/sample_gateway/wallet_address');
-?>
+
+/*?>
+<p><?php echo __('walletAddress: '.$walletAddress) ?></p>
 <p><?php echo __('Your order number is: '.$order_id) ?></p>
-<p><?php echo __('Your order total is: '.$order_total.$order_currency) ?></p>
+<p><?php echo __('Your order total is: '.$order_total.$store_currency) ?></p>
+<p><?php echo __('Your order total in coin is: '.$order_total_in_coin."ETH") ?></p>
+<p><?php echo __('Your order placed at: '.$placed_time) ?></p>
 <p><?php echo __('Shop wallet address: '.$walletAddress) ?></p>
-<p><?php echo __('QRtext: '.$QRtextencode) ?></p>
+<p><?php echo __('QRtext hex: '.$QRtextencode) ?></p>
+<p><?php echo __('QRtext : '.$QRtextencode_test) ?></p>
+<?php
+*/
+
+?>
+<p><?php echo __('QRtext hex: '.$QRtextencode) ?></p>
+<p><?php echo __('Your order total in coin is: '.$order_total_in_coin."ETH") ?></p>
+<h2 id="waiting_payment">Waiting for your payment...</h2>
 <p>
-  <?php
-     echo __("<img src='https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl="
+<?php
+        echo __("<img src='https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl="
     					.$QRtextencode."&choe=UTF-8' title='Link to Google.com' />" );
   ?>
 </p>
 
 <script>
-require(['jquery', 'jquery/ui'], function($){
-    //your js code here
-    $.ajax({
-            showLoader: true,
-            url: "<?php echo $block->getUrl('ajaxreq/index/ajax');?>",
-            data: {
-              prefix:"<?php echo $order_id_prefix;?>",
-              order_id:<?php echo $order_id;?>
-            },
-            type: "POST",
-           // dataType: 'json'
-           }).done(function (data) {
-               //alert(data);
-               console.log(data);
-            });
+
+require(['jquery', 'jquery/ui','functionsjs'], function($){
+    call_ajax("<?php echo $block->getUrl('ajaxreq/index/ajax');?>",new Date(),<?php echo $order_id;?>,600,3); //timeout 30s request every 3s
 });
+
+
 </script>
