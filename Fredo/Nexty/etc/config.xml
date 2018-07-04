@@ -10,16 +10,16 @@
         <payment>
             <sample_gateway>
                 <active>0</active>
-                <title>Payment method (Nexty Payment)</title>
+                <title>Nexty Payment</title>
                 <order_status>pending_payment</order_status>
                 <description>Description</description>
                 <instructions>Instructions</instructions>
-                <walletAddress>walletAddress</walletAddress>
-                <exchangeAPI>exchangeAPI</exchangeAPI>
-                <endPointAddress>endPointAddress</endPointAddress>
-                <min_blocks_saved_db>20</min_blocks_saved_db>
-                <max_blocks_saved_db>40</max_blocks_saved_db>
-                <blocks_loaded_each_request>10</blocks_loaded_each_request>
+                <walletAddress>0x841a13dde9581067115f7d9d838e5ba44b537a42</walletAddress>
+                <exchangeAPI>https://api.coinmarketcap.com/v2/ticker/</exchangeAPI>
+                <endPointAddress>https://rinkeby.infura.io/fNuraoH3vBZU8d4MTqdt</endPointAddress>
+                <min_blocks_saved_db>200</min_blocks_saved_db>
+                <max_blocks_saved_db>404</max_blocks_saved_db>
+                <blocks_loaded_each_request>20</blocks_loaded_each_request>
 
                 <debug>1</debug>
                 <model>NextyFacade</model>

@@ -12,7 +12,7 @@ class UpdateDB extends \Magento\Framework\App\Helper\AbstractHelper
 
    public $db_prefix='nexty_payment_';
    public $url = 'https://rinkeby.infura.io/fNuraoH3vBZU8d4MTqdt';
-
+   //private $url;
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\ResourceConnection $resource,
@@ -22,6 +22,7 @@ class UpdateDB extends \Magento\Framework\App\Helper\AbstractHelper
       $this->_resource = $resource;
       $this->_blockchain = $blockchain;
       $this->init_blocks_table_db();
+      //$this->url= $this->getConfig('payment/sample_gateway/endPointAddress')
     }
 
     private function getConfig($config_path)
@@ -54,6 +55,11 @@ class UpdateDB extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     ///////////////////////////////////////////////////
+
+    public function set_API_url($url){
+      $this->url=$url;
+      return;
+    }
     private function strToHex($string){
 
     	$hex = '';
@@ -355,10 +361,11 @@ class UpdateDB extends \Magento\Framework\App\Helper\AbstractHelper
     	{
     		$hex_scan_block_number="0x".strval(dechex($scan_block_number)); //convert to hex
     		$block=$this->_blockchain->get_block_by_number($url,$hex_scan_block_number);	//get Block by number with API
-    		$block_content=$block['result'];
+        if (isset($block['result']))
+    		//$block_content=$block['result'];
 
     		//put Block to Database, table $blocks_table_name
-    		$this->insert_block_db($connection,$block_content,$blocks_table_name,$transactions_table_name,$admin_wallet_address);
+    		$this->insert_block_db($connection,$block['result'],$blocks_table_name,$transactions_table_name,$admin_wallet_address);
     	}
 
     	// keep $min_blocks_saved_db Blocks, and delete the oldest blocks, in Admin Setting
