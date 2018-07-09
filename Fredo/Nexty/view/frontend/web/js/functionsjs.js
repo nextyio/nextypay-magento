@@ -1,7 +1,3 @@
-
-
-//require(['jquery'], function($){ /* Code... */
-/////////////////////////
 function countInSecond(startTime,endTime) {
   var timeDiff = endTime - startTime; //in ms
   // strip the ms
@@ -46,5 +42,3 @@ function call_ajax(url,startTime,order_id,timeout,interval){
 		})
 	}, interval*1000);
 }
-///////////////////////////
-//})
