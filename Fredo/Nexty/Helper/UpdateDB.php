@@ -11,7 +11,8 @@ class UpdateDB extends \Magento\Framework\App\Helper\AbstractHelper
    protected $_resource;
 
    public $db_prefix='nexty_payment_';
-   public $url = 'https://rinkeby.infura.io/fNuraoH3vBZU8d4MTqdt';
+   //public $url = 'https://rinkeby.infura.io/fNuraoH3vBZU8d4MTqdt';
+   public $url;
    //private $url;
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -22,7 +23,7 @@ class UpdateDB extends \Magento\Framework\App\Helper\AbstractHelper
       $this->_resource = $resource;
       $this->_blockchain = $blockchain;
       $this->init_blocks_table_db();
-      //$this->url= $this->getConfig('payment/sample_gateway/endPointAddress')
+      $this->url= $this->getConfig('payment/sample_gateway/endPointAddress')
     }
 
     private function getConfig($config_path)
