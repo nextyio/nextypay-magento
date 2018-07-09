@@ -23,7 +23,7 @@ class UpdateDB extends \Magento\Framework\App\Helper\AbstractHelper
       $this->_resource = $resource;
       $this->_blockchain = $blockchain;
       $this->init_blocks_table_db();
-      $this->url= $this->getConfig('payment/sample_gateway/endPointAddress')
+      $this->url= $this->getConfig('payment/sample_gateway/endPointAddress');
     }
 
     private function getConfig($config_path)
