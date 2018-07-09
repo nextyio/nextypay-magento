@@ -45,10 +45,6 @@
                 <field id="blocks_loaded_each_request" translate="label" type="text"  sortOrder="29" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Blocks_loaded_each_request</label>
                 </field>
-                <field id="payment_action" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Payment Action</label>
-                    <source_model>Fredo\Nexty\Model\Adminhtml\Source\PaymentAction</source_model>
-                </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="130" showInDefault="9"
                        showInWebsite="1" showInStore="0">
                     <label>Payment From Applicable Countries</label>
