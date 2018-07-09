@@ -38,6 +38,7 @@
                 </field>
                 <field id="min_blocks_saved_db" translate="label" type="text"  sortOrder="27" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Min_blocks_saved_db</label>
+                    <validate>integer validate-greater-than-zero</validate>
                 </field>
                 <field id="max_blocks_saved_db" translate="label" type="text"  sortOrder="28" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Max_blocks_saved_db</label>
